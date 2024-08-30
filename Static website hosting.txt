@@ -1,0 +1,69 @@
+This document details the process of hosting a static website on AWS using various services. The services used include S3 for storing website files, CloudFront for content delivery, AWS Certificate Manager (ACM) for SSL certificates, and AWS CodePipeline for automating the deployment process. Additionally, a domain name from Namecheap is used, and GitHub serves as the repository for the website’s source code.
+
+SERVICE USED :
+Amazon S3 (Simple Storage Service): Used for storing the static website files and enabling static website hosting.
+Amazon CloudFront: A Content Delivery Network (CDN) that accelerates the distribution of content by serving it from edge locations closer to users.
+AWS Web Application Firewall (WAF): Provides protection against common web exploits and allows for the creation of rules to filter traffic.
+AWS Certificate Manager (ACM): Manages SSL/TLS certificates to secure the website.
+GitHub: Hosts the source code of the static website.
+AWS CodePipeline: Automates the deployment process, connecting the GitHub repository to the S3 bucket.
+Namecheap: Provides the domain name for the website.
+
+ARCHITECTURE :
+
+— S3 Setup for Static Website Hosting —
+Create an S3 Bucket:
+Navigate to the S3 console and create a new bucket.
+Name the bucket according to your domain name (e.g., example.com).
+Select the region “US East (N. Virginia)”.
+
+Enable Static Website Hosting:
+Go to the bucket properties.
+Under the “Static website hosting” section, choose “Use this bucket to host a website”.
+Specify the index document (e.g., index.html) and error document (e.g., error.html).
+
+Upload Website Files:
+Upload the static files (HTML, CSS, JS, etc.) to the S3 bucket.
+
+— AWS CloudFront Setup —
+Create a CloudFront Distribution:
+Go to the CloudFront console and create a new distribution.
+Set the origin domain name to the S3 bucket’s website endpoint.
+Configure the default cache behavior and distribution settings as needed.
+Associate the WAF WebACL with the CloudFront distribution.
+
+AWS Certificate Manager (ACM) :
+Use DNS validation to verify ownership of the domain.
+
+Configure SSL/TLS Certificate:
+In the distribution settings, select “Custom SSL Certificate” and choose the certificate provisioned via AWS Certificate Manager (ACM).
+
+— Domain Name Configuration with Namecheap —
+Point Domain to CloudFront:
+In the Namecheap DNS settings, create a CNAME record pointing your domain (e.g., www.example.com) to the CloudFront distribution domain name.
+
+Configure Domain Redirection:
+Set up a redirect for ( example.com ) to (www.example.com ) or vice versa, if required.
+
+— Automate Deployment with AWS CodePipeline —
+Create a Pipeline in CodePipeline:
+Navigate to the CodePipeline console and create a new pipeline.
+Select ( Github ) as the source provider and connect your repository.
+
+Set Up S3 as the Deployment Target:
+Add a deploy action and select the S3 bucket created earlier as the target.
+Configure the build stage (if needed) and ensure the pipeline deploys the latest code to S3 automatically.
+
+Test the Pipeline:
+Push a change to the GitHub repository to verify that the pipeline triggers and the files are deployed to S3.
+
+— Testing and Validation —
+Website Access: Ensure that the website is accessible via the domain name with HTTPS enabled.
+Pipeline Verification: Confirm that changes in the GitHub repository trigger the pipeline and update the website.
+
+This documentation provides a comprehensive guide to hosting a static website using AWS services. By following the steps outlined, you can efficiently deploy and manage a secure and high-performing website.
+
+
+
+
+
